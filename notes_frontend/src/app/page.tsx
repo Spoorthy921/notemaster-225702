@@ -148,8 +148,9 @@ export default function Home() {
         });
         lastSavedRef.current = snap;
         await refreshAll();
-      } catch (e: any) {
-        setError(e?.message || "Autosave failed");
+      } catch (e: unknown) {
+        const message = e instanceof Error ? e.message : "Autosave failed";
+        setError(message);
       } finally {
         setBusy(null);
       }
@@ -167,8 +168,9 @@ export default function Home() {
       if (mode === "login") await login(email, password);
       else await signup(email, password);
       await refreshAll();
-    } catch (err: any) {
-      setError(err?.message || "Authentication failed");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Authentication failed";
+      setError(message);
     } finally {
       setBusy(null);
     }
@@ -194,8 +196,9 @@ export default function Home() {
       });
       await refreshAll();
       setSelectedId(n.id);
-    } catch (e: any) {
-      setError(e?.message || "Failed to create note");
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Failed to create note";
+      setError(message);
     } finally {
       setBusy(null);
     }
@@ -209,8 +212,9 @@ export default function Home() {
       await deleteNote(selected.id);
       await refreshAll();
       setSelectedId(null);
-    } catch (e: any) {
-      setError(e?.message || "Failed to delete note");
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : "Failed to delete note";
+      setError(message);
     } finally {
       setBusy(null);
     }
